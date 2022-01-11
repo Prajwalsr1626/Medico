@@ -26,6 +26,7 @@ export default class Register extends React.Component{
         }).then(response=>response.json()).then(data=>{
             console.log(data)
             this.setState({regmsg:data.data})
+            
         });;
         console.log(ob)
         event.preventDefault()
@@ -33,40 +34,45 @@ export default class Register extends React.Component{
 
     render(){
         return(
-            <div>
-                <div class="form-v6">
-	    <div class="page-content">
-		<div class="form-v6-content">
-			<div class="form-left">
-				<img src="images/form-v6.jpg" alt="form" width="500px" height="700px"/>
-			</div>
-			<form class="form-detail"  onSubmit={this.register} action="">
-				<h2>Hosptial Register</h2>
-				<div class="form-row">
-					<input type="text" ref={c=>this.hospitalid=c} name="hospitalid" id="hospitalid" class="input-text" placeholder="Hospital Id" required/>
-				</div>
+            
+                            
+            <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <h3  class="register-heading">Register the Hospital</h3>
+            <form method="post" onSubmit={this.register} action="">
+            <div class="row register-form">
                 
-				<div class="form-row">
-					<input type="text" ref={c=>this.hospitalname=c} name="hospitalname" id="hospitalname" class="input-text" placeholder="Hospital Name"  />
-				</div>
-                <div class="form-row">
-					<input type="text" ref={c=>this.address=c} name="address" id="address" class="input-text" placeholder="Address" required/>
-				</div>
-                <div class="form-row">
-					<input type="number" ref={c=>this.contact=c} name="contact" id="contact" class="input-text" placeholder="Contact Number" required/>
-				</div>
-				<div class="form-row">
-					<input type="password" ref={c=>this.password=c} name="password" id="password" class="input-text" placeholder="Password" required/>
-				</div>
-				<b style={{color:"red"}}>{this.state.regmsg}</b>
-				<div class="form-row-last">
-                <button style={{borderRadius: '9px', border: 'px solid' ,width:'250px' ,height:'50px' }} type="submit" name="register" class="register" value="Register"> Submit</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text" class="form-control"  ref={c=>this.hospitalid=c} name="hospitalid" id="hospitalid" placeholder="Hospital ID *" required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control"  ref={c=>this.contact=c} name="contact" id="contact" placeholder="Contact Number" required />
+                    </div>
+                    <div class="form-group">
+                        <input ref={c=>this.password=c} type="password" class="form-control" placeholder="Password *" id="password" name="password"  required/>
+                    </div>
+                    
+
+                </div>
+            
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <input type="text" class="form-control"  ref={c=>this.hospitalname=c} name="hospitalname" id="hospitalname" placeholder="Hospital Name" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" ref={c=>this.address=c} name="address" id="address" placeholder="Address" required class="form-control"   />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ref={c=>this.cpassword=c}  class="form-control"  id="cpassword" placeholder="Confirm Password *" name="cpassword"  onkeyup='check();' required/><span id='message'></span>
+                    </div>
+                    <input type="submit" class="btnRegister" name="patsub1"  value="Register"/>
+                </div>
+                <b style={{color:"red"}}>{this.state.regmsg}</b>
             </div>
+        </form>
+        </div>
+
         )
     }
 
