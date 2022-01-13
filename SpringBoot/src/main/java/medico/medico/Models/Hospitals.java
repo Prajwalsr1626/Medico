@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-@Document("Hositals")
+//@Document("Hositals")
 public class Hospitals {
      @Id
      String hospitalid;

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @CrossOrigin
 @RestController
 @RequestMapping("Doctors")
@@ -30,7 +29,7 @@ public class DoctorsController {
         return new Respones("200",doctors,true);
     }
 
-    @PostMapping("/findDoctors")
+    @GetMapping("/findDoctors")
     public Respones findDoc()
     {
         List<Doctors>docdata= doctoreRepository.findAll();
