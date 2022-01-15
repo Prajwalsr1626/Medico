@@ -47,34 +47,46 @@ public class HospitalsDetails implements UserDetails {
         return hospitals.getAddress();
     }
 
+    public String email(){
+
+        return hospitals.getEmail();
+    }
+
     public long contact() {
         // TODO Auto-generated method stub
         return hospitals.getContact();
+    }
+
+    public boolean hosstatus(){
+
+        return hospitals.isHosstatus();
     }
 
 
     @Override
     public boolean isAccountNonExpired() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return false;
+        if(hospitals!=null)
+			return true;
+		else
+			return false;
     }
     
     

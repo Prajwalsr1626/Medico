@@ -12,12 +12,14 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @ToString
-//@Document("Hositals")
+@Document("Hositals")
 public class Hospitals {
      @Id
      String hospitalid;
      String password;
      String hospitalname;
-     String address;         
+     String address;   
+     String Email;   
+     boolean hosstatus;   
      long contact;
 }

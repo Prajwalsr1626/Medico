@@ -1,5 +1,6 @@
 import React from "react";
 
+import HospitalService from '../Services/HospitalService';
 export default class Register extends React.Component{
 
     constructor(){
@@ -9,15 +10,30 @@ export default class Register extends React.Component{
             loginmsg : ''
         }
     }
+    verfication=()=>{
+        var ob = {
+            hospitalid : this.hospitalid.value,
+            hospitalname : this.hospitalname.value,
+            contact:this.contact.value*1,
+            address : this.address.value+this.pincode.value,
+            Email:this.email.value,
+            password: this.password.value,
+        }
+
+
+    }
     register = (event)=>{
         var ob = {
             hospitalid : this.hospitalid.value,
             hospitalname : this.hospitalname.value,
             contact:this.contact.value*1,
-            address : this.address.value,
+            address : this.address.value+this.pincode.value,
+            Email:this.email.value,
             password: this.password.value,
+            hosstatus:false
         }
-        fetch(`http://localhost:8082/Hospital/addHospital`,{
+
+        fetch(`http://localhost:8080/Hospital/register`,{
             method : 'POST',
             headers:{
                 "Content-Type" : "application/json"
@@ -25,7 +41,7 @@ export default class Register extends React.Component{
             body : JSON.stringify(ob)
         }).then(response=>response.json()).then(data=>{
             console.log(data)
-            this.setState({regmsg:data.data})
+            this.setState({regmsg:data.msg})
             
         });;
         console.log(ob)
@@ -33,9 +49,7 @@ export default class Register extends React.Component{
     }
 
     render(){
-        return(
-            
-                            
+        return(       
             <div class="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <h3  class="register-heading">Register the Hospital</h3>
             <form method="post" onSubmit={this.register} action="">
@@ -47,6 +61,9 @@ export default class Register extends React.Component{
                     </div>
                     <div class="form-group">
                         <input type="number" class="form-control"  ref={c=>this.contact=c} name="contact" id="contact" placeholder="Contact Number" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ref={c=>this.address=c} name="address" id="address" placeholder="Address Line 1" required class="form-control"   />
                     </div>
                     <div class="form-group">
                         <input ref={c=>this.password=c} type="password" class="form-control" placeholder="Password *" id="password" name="password"  required/>
@@ -61,10 +78,13 @@ export default class Register extends React.Component{
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" ref={c=>this.address=c} name="address" id="address" placeholder="Address" required class="form-control"   />
+                        <input type="email" ref={c=>this.email=c} name="" id="email" placeholder="email" required class="form-control"  required  />
                     </div>
                     <div class="form-group">
-                        <input type="password" ref={c=>this.cpassword=c}  class="form-control"  id="cpassword" placeholder="Confirm Password *" name="cpassword"  onkeyup='check();' required/><span id='message'></span>
+                        <input type="text" ref={c=>this.pincode=c} name="address" id="pincode" placeholder="Pincode" required class="form-control"  />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ref={c=>this.cpassword=c}  class="form-control"  id="cpassword" placeholder="Confirm Password *" name="cpassword"  required/><span id='message'></span>
                     </div>
                     <input type="submit" class="btnRegister" name="patsub1"  value="Register"/>
                 </div>

@@ -44,9 +44,10 @@ public class HospitalsDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("1123");
+        System.out.println(username);
         Hospitals hospitals =hospitalsRepository.findById(username).get();
-
+        System.out.println(hospitals);
         return new HospitalsDetails(hospitals);
     }
-    
 }

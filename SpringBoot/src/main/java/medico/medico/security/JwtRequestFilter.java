@@ -39,7 +39,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	@Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.contains("/Hospital");
+        return path.contains("/Hospital/");
     }
 
 	@Override

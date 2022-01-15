@@ -1,5 +1,8 @@
 import React from "react";
 import { Navigate } from 'react-router-dom';
+import {ACTION_HOSPETIAL_LOGIN} from '../Action/HospitalAction'
+import Store from '../Action/Store'
+import Hospitalid from "../Gobaldata/hospitalid";
 export default class Login extends React.Component{
 
     constructor(){
@@ -7,16 +10,18 @@ export default class Login extends React.Component{
         this.state = {
             regmsg : '',
             loginmsg : '',
-            loginstatus : false
+            loginstatus : false,
+            hospetial:[]
         }
     }
+
     login = (event)=>{
         var ob = {
             hospitalid : this.lhospitalid.value,
             password: this.lpassword.value,
         }
         console.log(this.setState.loginstatus)
-        fetch(`http://localhost:8082/Hospital/loginHospital`,{
+        fetch(`http://localhost:8080/Hospital/loginHospital`,{
             method : 'POST',
             headers:{
                 "Content-Type" : "application/json"
@@ -24,14 +29,23 @@ export default class Login extends React.Component{
             body : JSON.stringify(ob)
         }).then(response=>response.json()).then(data=>{
             console.log(data)
-            this.setState({regmsg:data.data})
-            if(data.msg===200){
-            this.setState({loginstatus:true})
-            }
+            console.log(data.hospitalid)
+            this.setState({regmsg:data.msg})
+            if(data.status)
+            {
+                 Store.dispatch({...ACTION_HOSPETIAL_LOGIN,payload:{
+                    hospitalid : data.hospitalid,
+                    token:data.token
+
+                }}) 
+                this.setState({loginstatus:true})
+            }else
+            this.setState({loginmsg:data.msg})
             
         });;
         console.log(this.state.loginstatus)
         console.log(ob)
+        
         event.preventDefault()
     }
 

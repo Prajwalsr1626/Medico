@@ -17,14 +17,10 @@ import Dashbord from "./Dashbord/Dashbord";
 
   render(){
     return(
-    
-        <BrowserRouter>
              <Routes>
              <Route path="/" element={<Home/>}/>
              <Route path="/Dashbord" element={<Dashbord/>}/>
              </Routes>
-        </BrowserRouter>
-      
     )
   }
 }

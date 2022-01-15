@@ -1,31 +1,89 @@
 import React from "react"
+import AddDoctors from "../Doctor/AddDoctor"
+import ListDoctors from "../Doctor/ListDoctors"
+//import Store from "../Action/Store"
+//import {ACTION_HOSPETIAL_LOGOUT , ACTION_HOSPETIAL_UPDATE_TOKEN} from '../Action/HospetialAction'
+import { Navigate } from 'react-router-dom';
+import {connect} from 'react-redux'
+import AddlistDoctor from "../Doctor/AddlistDoctor";
 
-export default class Dashbord extends React.Component{
+var mapStateToProps = state => {
+  return {
+     Hopital: state.Hospitals,
+  }
+}
 
-    constructor(){
-        super()
-         this.state = {
-            regmsg : '',
-            loginmsg : ''
-        }
+ class Dashbord extends React.Component{
+
+  constructor(){
+    super()
+    this.state = {
+        updateProfilemsg : '',
+        updatePasswordmsg : '',
+        Hospitals : [],
+    }       
+}
+
+    /* componentDidMount ()
+    {
+      // GET URL
+      fetch("http://localhost:8080/Hospital/hopitaldata")
+      .then(response=>response.json())
+      .then(data=>{
+          console.log(data.data)
+          if(data.data===null){
+           // alert("Place login ")
+            this.setState({ logoinstatus:true})
+          }
+      })
+      .catch(err=>{
+        alert("Something Wrong !")
+      })
+    }
+
+    login = (event)=>{
+      
+    } */
+    componentDidMount()
+    {
+      console.log("1!!")
+        console.log(this.props.Hopital)
+        console.log("11.2")
+        this.setState({Hopsitals:this.props.Hopital})
+        console.log(this.props.Hopital.hospitalid)
+    /*     fetch(`http://localhost:8080/Hospital/loginHospital`,{
+          method : 'POST',
+          headers:{
+              "Content-Type" : "application/json"
+          },
+          body : JSON.stringify()
+      }).then(response=>response.json()).then(data=>{
+            if(data.status)
+            {
+                Store.dispatch({...ACTION_HOSPETIAL_UPDATE_TOKEN,payload:{
+                    token : data.token
+                }})
+                this.setState({userinfo:data.user})
+            }else{
+                if(data.code==401)
+                    alert("Invalid User !")
+                if(data.code==403)
+                    alert("Session Lost !")  
+                Store.dispatch({...ACTION_HOSPETIAL_LOGOUT})                      
+            }
+        }); */
     }
     
     render(){
+      if(this.state.logoinstatus){
         return(
-
+        <Navigate to={"/"}/> )
+    }
+        return(
 <body style={{paddingTop:"50px"}}>
-    <div>Hospital Name</div>
-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-     <ul class="navbar-nav mr-auto">
-       <li class="nav-item">
-        <a class="nav-link" href="logout1.php"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="#"></a>
-      </li>
-    </ul>
-  </div>
-
+    <div>Hospital Name {this.props.Hopital.hospitalid}
+     
+    </div>
    <div class="container-fluid" style={{marginTop:"50px"}}>
     <h3 style = {{marginLeft: "40%", paddingBottom: "20px",fontFamily: 'IBM Plex Sans'}}> WELCOME RECEPTIONIST </h3>
     <div class="row">
@@ -33,10 +91,10 @@ export default class Dashbord extends React.Component{
     <div class="list-group" id="list-tab" role="tablist">
       <a class="list-group-item list-group-item-action active" id="list-dash-list" data-toggle="list" href="#list-dash" role="tab" aria-controls="home">Dashboard</a>
       <a class="list-group-item list-group-item-action" href="#list-doc" id="list-doc-list"  role="tab"    aria-controls="home" data-toggle="list">Doctor List</a>
+      <a class="list-group-item list-group-item-action" href="#list-settings" id="list-adoc-list"  role="tab" data-toggle="list" aria-controls="home">Add Doctor</a>
       <a class="list-group-item list-group-item-action" href="#list-pat" id="list-pat-list"  role="tab" data-toggle="list" aria-controls="home">Patient List</a>
       <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home">Appointment Details</a>
       <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list"  role="tab" data-toggle="list" aria-controls="home">Prescription List</a>
-      <a class="list-group-item list-group-item-action" href="#list-settings" id="list-adoc-list"  role="tab" data-toggle="list" aria-controls="home">Add Doctor</a>
       <a class="list-group-item list-group-item-action" href="#list-settings1" id="list-ddoc-list"  role="tab" data-toggle="list" aria-controls="home">Delete Doctor</a>
       <a class="list-group-item list-group-item-action" href="#list-mes" id="list-mes-list"  role="tab" data-toggle="list" aria-controls="home">Queries</a>
       
@@ -44,8 +102,6 @@ export default class Dashbord extends React.Component{
   </div>
   <div class="col-md-8" style={{marginTop: "3%"}}>
     <div class="tab-content" id="nav-tabContent" style={{width: "950px"}}>
-
-
 
       <div class="tab-pane fade show active" id="list-dash" role="tabpanel" aria-labelledby="list-dash-list">
         <div class="container-fluid container-fullw bg-white" >
@@ -79,7 +135,6 @@ export default class Dashbord extends React.Component{
                     </div>
                   </div>
                 </div>
-              
 
                 <div class="col-sm-4">
                   <div class="panel panel-white no-radius text-center">
@@ -122,7 +177,7 @@ export default class Dashbord extends React.Component{
                     
                       <p class="cl-effect-1">
                         <a href="#app-hist" onclick="clickDiv('#list-adoc-list')">Add Doctors</a>
-                        &nbsp|
+
                         <a href="#app-hist" onclick="clickDiv('#list-ddoc-list')">
                           Delete Doctors
                         </a>
@@ -131,54 +186,12 @@ export default class Dashbord extends React.Component{
                   </div>
                 </div>
                 </div>
-                        
-
-      
                 
               </div>
             </div>
-      
-                
-      
 
-
-
-
-
-
-      <div class="tab-pane fade" id="list-doc" role="tabpanel" aria-labelledby="list-home-list">
-              
-
-              <div class="col-md-8">
-      <form class="form-group" action="doctorsearch.php" method="post">
-        <div class="row">
-        <div class="col-md-10"><input type="text" name="doctor_contact" placeholder="Enter Email ID" class = "form-control"/></div>
-        <div class="col-md-2"><input type="submit" name="doctor_search_submit" class="btn btn-primary" value="Search"/></div></div>
-      </form>
-    </div>
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">Doctor Name</th>
-                    <th scope="col">Specialization</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Password</th>
-                    <th scope="col">Fees</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <tr>
-                        <td>$username</td>
-                        <td>$spec</td>
-                        <td>$email</td>
-                        <td>$password</td>
-                        <td>$docFees</td>
-                      </tr>
-                </tbody>
-              </table>
-        <br/>
-      </div>
-    
+      <AddlistDoctor Hosdata={this.props.Hopital.hospitalid}></AddlistDoctor>
+     
 
     <div class="tab-pane fade" id="list-pat" role="tabpanel" aria-labelledby="list-pat-list">
 
@@ -203,7 +216,6 @@ export default class Dashbord extends React.Component{
                   </tr>
                 </thead>
                 <tbody>
-                  
                       <tr>
                         <td>$pid</td>
                         <td>$fname</td>
@@ -307,47 +319,7 @@ export default class Dashbord extends React.Component{
 
 <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
 
-      <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-        <form class="form-group" method="post" action="admin-panel1.php">
-          <div class="row">
-                  <div class="col-md-4"><label>Doctor Name:</label></div>
-                  <div class="col-md-8"><input type="text" class="form-control" name="doctor" onkeydown="return alphaOnly(event)," required/></div><br/><br/>
-                  <div class="col-md-4"><label>Specialization:</label></div>
-                  <div class="col-md-8">
-                   <select name="special" class="form-control" id="special" required="required">
-                      <option value="head" name="spec" disabled selected>Select Specialization</option>
-                      <option value="General" name="spec">General</option>
-                      <option value="Cardiologist" name="spec">Cardiologist</option>
-                      <option value="Neurologist" name="spec">Neurologist</option>
-                      <option value="Pediatrician" name="spec">Pediatrician</option>
-                    </select>
-                    </div><br/><br/>
-                  <div class="col-md-4"><label>Email ID:</label></div>
-                  <div class="col-md-8"><input type="email"  class="form-control" name="demail" required/></div><br/><br/>
-                  <div class="col-md-4"><label>Password:</label></div>
-                  <div class="col-md-8"><input type="password" class="form-control"  onkeyup='check(),' name="dpassword" id="dpassword"  required/></div><br/><br/>
-                  <div class="col-md-4"><label>Confirm Password:</label></div>
-                  <div class="col-md-8"  id='cpass'><input type="password" class="form-control" onkeyup='check(),' name="cdpassword" id="cdpassword" required/>&nbsp &nbsp<span id='message'></span> </div><br/><br/>
-                   
-                  
-                  <div class="col-md-4"><label>Consultancy Fees:</label></div>
-                  <div class="col-md-8"><input type="text" class="form-control"  name="docFees" required/></div><br/><br/>
-                </div>
-          <input type="submit" name="docsub" value="Add Doctor" class="btn btn-primary"/>
-        </form>
-      </div>
-
-      <div class="tab-pane fade" id="list-settings1" role="tabpanel" aria-labelledby="list-settings1-list">
-        <form class="form-group" method="post" action="admin-panel1.php">
-          <div class="row">
-          
-                  <div class="col-md-4"><label>Email ID:</label></div>
-                  <div class="col-md-8"><input type="email"  class="form-control" name="demail" required/></div><br/><br/>
-                  
-                </div>
-          <input type="submit" name="docsub1" value="Delete Doctor" class="btn btn-primary"/>
-        </form>
-      </div>
+      
 
 
        <div class="tab-pane fade" id="list-attend" role="tabpanel" aria-labelledby="list-attend-list">...</div>
@@ -396,3 +368,4 @@ export default class Dashbord extends React.Component{
     }
 
 }
+export default connect(mapStateToProps,null)(Dashbord)

@@ -1,6 +1,8 @@
 package medico.medico.Controllers;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import medico.medico.Models.Doctors;
 import medico.medico.Repository.DoctoreRepository;
@@ -9,6 +11,7 @@ import medico.medico.Respones.Respones;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("Doctors")
+@RequestMapping("/Hospital")
 public class DoctorsController {
     @Autowired
     DoctoreRepository doctoreRepository;
@@ -25,15 +28,24 @@ public class DoctorsController {
     @PostMapping("/addDocter")
     public Respones addDoctor(@RequestBody Doctors doctors)
     {
+        System.out.println("prajwal");
         doctoreRepository.save(doctors);
         return new Respones("200",doctors,true);
     }
 
-    @GetMapping("/findDoctors")
-    public Respones findDoc()
+    @GetMapping("/findDoctors/{hospitalid}")
+    public Respones findDoc(@PathVariable String hospitalid)
     {
-        List<Doctors>docdata= doctoreRepository.findAll();
+        List<Doctors>docdata= doctoreRepository.findAll().stream().filter(data->data.getHospitalid().equals(hospitalid)).collect(Collectors.toList());
+        
         return new Respones("200",docdata,true);
     }
+    @GetMapping("/findDoc/{hospitalid}")
+    public Respones findDocs(@PathVariable String hospitalid)
+    {
+        List<Doctors>docdata= doctoreRepository.findAll().stream().filter(data->data.getHospitalid().equals(hospitalid)).collect(Collectors.toList());
+        
     
+        return new Respones("200",docdata,true);
+    }
 }

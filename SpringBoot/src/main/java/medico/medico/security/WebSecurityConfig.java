@@ -27,21 +27,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 //
-	// @Autowired
+	//  @Autowired
 	// public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 	// 	// configure AuthenticationManager so that it knows from where to load
 	// 	// user for matching credentials
 	// 	// Use BCryptPasswordEncoder
 	// 	auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	// }
+	
 //
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 //
-	@Bean
+	
 	@Override
+	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
@@ -51,12 +53,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/Hospital/").permitAll()
+				.authorizeRequests().antMatchers("/Hospital/**").permitAll()
 //				.antMatchers("/web/register").permitAll()
-				.antMatchers("/patient/**").permitAll().
+				.antMatchers("/Hospital/**/").permitAll()
+				.antMatchers("/Doctors/**/").permitAll().
 				// all other requests need to be authenticated
-				anyRequest().authenticated().and();
-
+				 anyRequest().authenticated().and();
+		
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
