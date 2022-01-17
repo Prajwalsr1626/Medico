@@ -28,9 +28,19 @@ public class DoctorsController {
     @PostMapping("/addDocter")
     public Respones addDoctor(@RequestBody Doctors doctors)
     {
-        System.out.println("prajwal");
+        System.out.println("11");
+        List<Doctors> doclist=doctoreRepository.findAll();
+        
+        for(Doctors doc :doclist)
+        {
+            System.out.println("12");
+            if(doc.getPhone().equals(doctors.getPhone()))
+            {
+                return new Respones(200,"phone number alredy",doctors,"",false);
+            }
+        }
         doctoreRepository.save(doctors);
-        return new Respones("200",doctors,true);
+        return new Respones(200," Doctor Saved Sussfully",doctors,"",true);
     }
 
     @GetMapping("/findDoctors/{hospitalid}")
@@ -38,14 +48,13 @@ public class DoctorsController {
     {
         List<Doctors>docdata= doctoreRepository.findAll().stream().filter(data->data.getHospitalid().equals(hospitalid)).collect(Collectors.toList());
         
-        return new Respones("200",docdata,true);
+        return new Respones(200,"",docdata,"",true);
     }
     @GetMapping("/findDoc/{hospitalid}")
     public Respones findDocs(@PathVariable String hospitalid)
     {
         List<Doctors>docdata= doctoreRepository.findAll().stream().filter(data->data.getHospitalid().equals(hospitalid)).collect(Collectors.toList());
-        
-    
-        return new Respones("200",docdata,true);
+
+        return new Respones(200,"",docdata,"",true);
     }
 }

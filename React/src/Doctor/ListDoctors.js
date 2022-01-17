@@ -28,8 +28,6 @@ export default class ListDoctors extends React.Component{
         return(
            
       <div class="tab-pane fade" id="list-doc" role="tabpanel" aria-labelledby="list-home-list">
-              
-
       <div class="col-md-8">
 <form class="form-group" action="doctorsearch.php" method="post">
 <div class="row">
@@ -59,6 +57,9 @@ export default class ListDoctors extends React.Component{
       </table>
 <br/>
 </div>
+
+
+
         )
     }
 

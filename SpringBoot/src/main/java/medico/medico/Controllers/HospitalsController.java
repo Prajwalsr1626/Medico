@@ -58,7 +58,7 @@ public class HospitalsController {
     @Autowired
     HospitalsDetailService hospitalsDetailService;
 
-    @PostMapping("/addHospital")
+   /*  @PostMapping("/addHospital")
     public Respones addHospital(@RequestBody Hospitals hospitals)
     {
 
@@ -67,7 +67,7 @@ public class HospitalsController {
             return new Respones("200","Hospitals saved Successfully",true);
         }
         return new Respones("400","Hospitals saved Successfully",true);
-    }
+    } */
     @PostMapping("/register")
     public Respones saveUser(@RequestBody Hospitals hospitals) 
 	{
@@ -78,11 +78,13 @@ public class HospitalsController {
         SendVerifyMail(hospitals.getHospitalname(),hospitals.getEmail(),hospitals.getHospitalid());
         hospitals.setPassword(passwordEncoder.encode(hospitals.getPassword()));
         hospitalsRepository.save(hospitals);
-        return new Respones("Vrification Mail sent to Your Email","Hospitals saved Successfully",true);
+        return new Respones(200,"Vrification Link sent to Your Email","Hospitals saved Successfully","",true);
         }
 		else
-			return new Respones("Hospitals with This Id Already Exists","Hospitals with This Id Already Exists",false);
+			return new Respones(401,"Hospitals with This Id Already Exists","Hospitals with This Id Already Exists","",false);
 	}
+
+
     private boolean SendVerifyMail(String name,String email,String hospitalid) 
 	{
 		try {
@@ -116,21 +118,29 @@ public class HospitalsController {
     public Respones addfind()
     {
         List<Hospitals> hosdata=hospitalsRepository.findAll();
-        return new Respones("200",hosdata,true);
+        return new Respones(200,"200",hosdata,"",true);
     }
     
-
-  /*   @GetMapping("/hopitaldata")
-    public Respones Hospitalsdata(){
-
-        return new Respones("200",hospitalidata,true);
-    }
-     */
     @PostMapping("/logout")
     public Respones addHospital(@RequestBody String logutstring)
     {
         System.out.println(logutstring);
-        return new Respones("200","Logout Sucessfully",true);
+        return new Respones(200,"","Logout Sucessfully","",true);
+    }
+
+    @GetMapping("/gethospitalbyid/{token}")
+    public Respones hospitalbyid(@PathVariable String token)
+    {
+        
+        System.out.println(token);
+        try{
+        String hosid=jwtTokenUtil.getUserIdFromToken(token);
+        Hospitals hosdata=hospitalsRepository.findById(hosid).get();
+        return new Respones(200,"",hosdata,token,true);
+        }catch(Exception e){
+         return new Respones(400,"Session Exprided","Session Exprided","",false);
+        }
+       
     }
 
 
@@ -143,12 +153,12 @@ public class HospitalsController {
             if(hosdata.isHosstatus()){
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(hospitals.getHospitalid(),hospitals.getPassword()));
 
-           // boolean hosdataisthare=hospitalsRepository.existsById(hospitals.getHospitalid());
-            
             String hosdatais=hospitalsDetailService.gethosid(hospitals);
 
 			final String token = jwtTokenUtil.generateToken(hosdatais);
-            
+            String hosid=jwtTokenUtil.getUserIdFromToken(token);
+            System.out.println("prajwal token");
+            System.out.println(hosid);
 			return ResponseEntity.ok(new JWTResponseData(true, token, "Login Successfully",hosdatais));
             }else{
                 return ResponseEntity.ok(new JWTResponseData(false, "", "verify Email!!",""));

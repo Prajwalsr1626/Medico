@@ -6,6 +6,7 @@ import {
   Routes,
 } from 'react-router-dom';
 import Dashbord from "./Dashbord/Dashbord";
+import PatientLogin from "./Patient/PatientLogin";
  export default class App extends React.Component{
   constructor(){
     super();
@@ -20,6 +21,7 @@ import Dashbord from "./Dashbord/Dashbord";
              <Routes>
              <Route path="/" element={<Home/>}/>
              <Route path="/Dashbord" element={<Dashbord/>}/>
+             <Route path="/patientlogin" element={<PatientLogin/>}/>
              </Routes>
     )
   }

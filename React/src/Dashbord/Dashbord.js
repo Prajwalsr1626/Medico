@@ -1,8 +1,6 @@
 import React from "react"
-import AddDoctors from "../Doctor/AddDoctor"
-import ListDoctors from "../Doctor/ListDoctors"
-//import Store from "../Action/Store"
-//import {ACTION_HOSPETIAL_LOGOUT , ACTION_HOSPETIAL_UPDATE_TOKEN} from '../Action/HospetialAction'
+import Store from "../Action/Store"
+import {ACTION_HOSPETIAL_LOGOUT , ACTION_HOSPETIAL_UPDATE_TOKEN} from "../Action/HospitalAction";
 import { Navigate } from 'react-router-dom';
 import {connect} from 'react-redux'
 import AddlistDoctor from "../Doctor/AddlistDoctor";
@@ -19,31 +17,18 @@ var mapStateToProps = state => {
     super()
     this.state = {
         updateProfilemsg : '',
-        updatePasswordmsg : '',
+        logoinstatus:false,
+        hospitalid:'',
         Hospitals : [],
     }       
 }
 
-    /* componentDidMount ()
-    {
-      // GET URL
-      fetch("http://localhost:8080/Hospital/hopitaldata")
-      .then(response=>response.json())
-      .then(data=>{
-          console.log(data.data)
-          if(data.data===null){
-           // alert("Place login ")
-            this.setState({ logoinstatus:true})
-          }
-      })
-      .catch(err=>{
-        alert("Something Wrong !")
-      })
-    }
+  
 
-    login = (event)=>{
-      
-    } */
+    logout = (event)=>{
+      this.setState({logoinstatus:true}) 
+      Store.dispatch({...ACTION_HOSPETIAL_LOGOUT})
+    } 
     componentDidMount()
     {
       console.log("1!!")
@@ -51,27 +36,26 @@ var mapStateToProps = state => {
         console.log("11.2")
         this.setState({Hopsitals:this.props.Hopital})
         console.log(this.props.Hopital.hospitalid)
-    /*     fetch(`http://localhost:8080/Hospital/loginHospital`,{
-          method : 'POST',
-          headers:{
-              "Content-Type" : "application/json"
-          },
-          body : JSON.stringify()
-      }).then(response=>response.json()).then(data=>{
+     fetch(`http://localhost:8080/Hospital/gethospitalbyid/${this.props.Hopital.token}`)
+     .then(response=>response.json()).then(data=>{
+       console.log(data)
             if(data.status)
             {
                 Store.dispatch({...ACTION_HOSPETIAL_UPDATE_TOKEN,payload:{
                     token : data.token
                 }})
-                this.setState({userinfo:data.user})
+                this.setState({Hopsitals:data.data})
+                this.setState({hospitalid:data.data.hospitalid})
             }else{
                 if(data.code==401)
                     alert("Invalid User !")
-                if(data.code==403)
-                    alert("Session Lost !")  
+                if(data.code==400)
+                    alert("Session Lost !")
+                    this.setState({logoinstatus:true})  
                 Store.dispatch({...ACTION_HOSPETIAL_LOGOUT})                      
             }
-        }); */
+        }); 
+        console.log(this.props.Hopital)
     }
     
     render(){
@@ -81,11 +65,32 @@ var mapStateToProps = state => {
     }
         return(
 <body style={{paddingTop:"50px"}}>
-    <div>Hospital Name {this.props.Hopital.hospitalid}
-     
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav"  >
+            <div class="container">
+        
+              <a class="navbar-brand js-scroll-trigger" href="#" style={{marginTop: "10px",marginLeft:"-65px",fontFamily: 'IBM Plex Sans'}} ><h4><i class="fa fa-user-plus" aria-hidden="true"></i> MEDICO</h4></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item" style={{marginRight: "40px"}}>
+                    <a class="nav-link js-scroll-trigger"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>HOME</h6></a>
+                  </li>
+          
+                  <li class="nav-item" style={{marginRight:"40px"}}>
+                    <a class="nav-link js-scroll-trigger"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>ABOUT US</h6></a>
+                  </li>
+        
+                  <li class="nav-item">
+                    <button  onClick={this.logout} name="Login" class="btn btn-primary"                                                                                                                                               ><h6>LOGOUT</h6></button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>    
    <div class="container-fluid" style={{marginTop:"50px"}}>
-    <h3 style = {{marginLeft: "40%", paddingBottom: "20px",fontFamily: 'IBM Plex Sans'}}> WELCOME RECEPTIONIST </h3>
+    <h3 style = {{marginLeft: "40%", paddingBottom: "20px",fontFamily: 'IBM Plex Sans'}}> WELCOME </h3>
     <div class="row">
   <div class="col-md-4" style={{maxWidth:"25%",marginTop: "3%"}}>
     <div class="list-group" id="list-tab" role="tablist">
@@ -95,7 +100,6 @@ var mapStateToProps = state => {
       <a class="list-group-item list-group-item-action" href="#list-pat" id="list-pat-list"  role="tab" data-toggle="list" aria-controls="home">Patient List</a>
       <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home">Appointment Details</a>
       <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list"  role="tab" data-toggle="list" aria-controls="home">Prescription List</a>
-      <a class="list-group-item list-group-item-action" href="#list-settings1" id="list-ddoc-list"  role="tab" data-toggle="list" aria-controls="home">Delete Doctor</a>
       <a class="list-group-item list-group-item-action" href="#list-mes" id="list-mes-list"  role="tab" data-toggle="list" aria-controls="home">Queries</a>
       
     </div><br/>
@@ -113,7 +117,7 @@ var mapStateToProps = state => {
                       <h4 class="StepTitle" style={{marginTop: "5%"}}>Doctor List</h4>
                       
                       <p class="links cl-effect-1">
-                        <a href="#list-doc" onclick="clickDiv('#list-doc-list')">
+                        <a href="#list-settings" >
                           View Doctors
                         </a>
                       </p>

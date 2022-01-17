@@ -6,6 +6,7 @@ export default class AddlistDoctor extends React.Component{
         super()
          this.state = {
             regmsg : '',
+            sucgmsg : '',
             Doctor:[]
         }
     }
@@ -23,30 +24,59 @@ export default class AddlistDoctor extends React.Component{
       alert("Something Wrong !")
     })
   }
-  addDoctor=()=>{
-      var ob = {
-          
-          hospitalname : this.props.Hosdata,
-          contact:this.contact.value*1,
-          address : this.address.value,
-          password: this.password.value,
+   onTimeChange=(timedata)=> {
+    var timeSplit = timedata.value.split(':'),
+      hours,
+      minutes,
+      meridian;
+    hours = timeSplit[0];
+    minutes = timeSplit[1];
+    if (hours > 12) {
+      meridian = 'PM';
+      hours -= 12;
+    } else if (hours < 12) {
+      meridian = 'AM';
+      if (hours == 0) {
+        hours = 12;
       }
-      fetch(`http://localhost:8080/Hospital/addHospital`,{
-          method : 'POST',
-          headers:{
-              "Content-Type" : "application/json"
-          },
-          body : JSON.stringify(ob)
-      }).then(response=>response.json()).then(data=>{
-          console.log(data)
-          this.setState({regmsg:data.data})
-          
-      });;
-      console.log(ob)
+    } else {
+      meridian = 'PM';
+    }
+    var time=hours + ':' + minutes + ' ' + meridian;
+    console.log(time)
+    return time;
   }
+  addDoctor=(event)=>{
 
-   
+      var ob = {
 
+        hospitalid:this.props.Hosdata,
+        name:this.docname.value,
+        phone:this.phone.value,
+        logintime: this.onTimeChange (this.logintime),
+        logouttime:  this.onTimeChange (this.logouttime),
+        specialization: this.Specialization.value
+      }
+      fetch(`http://localhost:8080/Hospital/addDocter`,{
+            method : 'POST',
+            headers:{
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify(ob)
+        }).then(response=>response.json()).then(data=>{
+            console.log(data)
+            if(data.status){
+            this.setState({Doctor:[...this.state.Doctor,ob]})
+            this.setState({sucgmsg:data.msg})
+            this.setState({regmsg:''})
+            }
+            else{
+              this.setState({regmsg:data.msg})
+            }
+        });;
+      console.log(ob)
+      event.preventDefault()
+  }
     render(){
         return(
             <>
@@ -65,6 +95,8 @@ export default class AddlistDoctor extends React.Component{
                     <th scope="col">Doctor Name</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Specialization</th>
+                    <th scope="col">Login Time</th>
+                    <th scope="col">Logout Time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -73,8 +105,10 @@ export default class AddlistDoctor extends React.Component{
                       <td>{index+1}</td>
                       <td>{ob.name}</td>
                       <td>{ob.phone}</td>
-                      <td>{ob.Specialization}</td>
-                    </tr>
+                      <td>{ob.specialization}</td>
+                      <td>{ob.logintime}</td>
+                      <td>{ob.logouttime}</td>
+                      </tr>
                   })}
                 </tbody>
               </table>
@@ -83,12 +117,11 @@ export default class AddlistDoctor extends React.Component{
         <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
                     <form class="form-group" onSubmit={this.addDoctor} method="">
                       <div class="row">
-                       {this.props.Hosdata}
                               <div class="col-md-4"><label>Doctor Name:</label></div>
-                              <div class="col-md-8"><input type="text" class="form-control" name="doctor" onkeydown="return alphaOnly(event)," required/></div><br/><br/>
+                              <div class="col-md-8"><input type="text" class="form-control" name="doctor" ref={c=>this.docname=c} required/></div><br/><br/>
                               <div class="col-md-4"><label>Specialization:</label></div>
                               <div class="col-md-8">
-                               <select name="special" class="form-control" id="special" required="required">
+                               <select name="special" ref={c=>this.Specialization=c} class="form-control" id="special" required="required">
                                   <option value="head" name="spec" disabled selected>Select Specialization</option>
                                   <option value="General" name="spec">General</option>
                                   <option value="Cardiologist" name="spec">Cardiologist</option>
@@ -96,31 +129,20 @@ export default class AddlistDoctor extends React.Component{
                                   <option value="Pediatrician" name="spec">Pediatrician</option>
                                 </select>
                                 </div><br/><br/>
-                              <div class="col-md-4"><label>Email ID:</label></div>
-                              <div class="col-md-8"><input type="email"  class="form-control" name="demail" required/></div><br/><br/>
                               <div class="col-md-4"><label>Phone</label></div>
-                              <div class="col-md-8"><input type="password" class="form-control"  onkeyup='check(),' name="dpassword" id="dpassword"  required/></div><br/><br/>
-                              <div class="col-md-4"><label>Confirm Password:</label></div>
-                              <div class="col-md-8"  id='cpass'><input type="password" class="form-control" onkeyup='check(),' name="cdpassword" id="cdpassword" required/>&nbsp &nbsp<span id='message'></span> </div><br/><br/>
-                               
-                              
-                              <div class="col-md-4"><label>Consultancy Fees:</label></div>
-                              <div class="col-md-8"><input type="text" class="form-control"  name="docFees" required/></div><br/><br/>
-                            </div>
+                              <div class="col-md-8"><input type="tel" minlength="10" maxlength="10" ref={c=>this.phone=c} class="form-control"   name="phone" id="phone" required/></div><br/><br/>
+                              <div class="col-md-4"><label>login Time</label></div>
+                              <div class="col-md-8"  id='cpass'><input type="time" ref={c=>this.logintime=c} class="form-control"  name="logintime" id="logintime" required/><span id='message'></span> </div><br/><br/>
+                              <div class="col-md-4"><label>logout Time</label></div>
+                              <div class="col-md-8"  id='cpass'><input type="time"ref={c=>this.logouttime=c}  class="form-control"  name="logouttime" id="logouttime" required/><span id='message'></span> </div><br/><br/>
+                            
+                        </div>
                       <input type="submit" name="docsub" value="Add Doctor" class="btn btn-primary"/>
                     </form>
+                    <b style={{color:"red"}}>{this.state.regmsg}</b>
+                    <b style={{color:"green"}}>{this.state.sucgmsg}</b>
                   </div>
-              <div class="tab-pane fade" id="list-settings1" role="tabpanel" aria-labelledby="list-settings1-list">
-                <form class="form-group" method="post" action="admin-panel1.php">
-                  <div class="row">
-                  
-                          <div class="col-md-4"><label>Email ID:</label></div>
-                          <div class="col-md-8"><input type="email"  class="form-control" name="demail" required/></div><br/><br/>
-                          
-                        </div>
-                  <input type="submit" name="docsub1" value="Delete Doctor" class="btn btn-primary"/>
-                </form>
-              </div>
+
         </>
         )
     }

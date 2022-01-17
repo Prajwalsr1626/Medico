@@ -10,9 +10,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Respones {
-    private String msg;
+    private int code;
+	private String msg;
 	private Object data;
+	private String token;
 	private boolean status;
+	
 	
 	
 }
