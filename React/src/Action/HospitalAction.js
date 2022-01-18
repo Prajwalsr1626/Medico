@@ -3,7 +3,7 @@ import * as actionType from './ActionTypes'
 export const ACTION_HOSPETIAL_LOGIN= {
     type : actionType.HOSPETIAL_LOGIN,
     payload : {       
-       
+        token : undefined,
         hospetalid: undefined
     }
 }

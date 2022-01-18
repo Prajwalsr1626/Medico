@@ -1,7 +1,6 @@
 package medico.medico.Controllers;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import medico.medico.Models.Doctors;
@@ -48,7 +47,7 @@ public class DoctorsController {
     {
         List<Doctors>docdata= doctoreRepository.findAll().stream().filter(data->data.getHospitalid().equals(hospitalid)).collect(Collectors.toList());
         
-        return new Respones(200,"",docdata,"",true);
+        return new Respones(200,"",docdata,"",true);                        
     }
     @GetMapping("/findDoc/{hospitalid}")
     public Respones findDocs(@PathVariable String hospitalid)

@@ -31,9 +31,7 @@ var mapStateToProps = state => {
     } 
     componentDidMount()
     {
-      console.log("1!!")
         console.log(this.props.Hopital)
-        console.log("11.2")
         this.setState({Hopsitals:this.props.Hopital})
         console.log(this.props.Hopital.hospitalid)
      fetch(`http://localhost:8080/Hospital/gethospitalbyid/${this.props.Hopital.token}`)
@@ -68,22 +66,22 @@ var mapStateToProps = state => {
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav"  >
             <div class="container">
         
-              <a class="navbar-brand js-scroll-trigger" href="#" style={{marginTop: "10px",marginLeft:"-65px",fontFamily: 'IBM Plex Sans'}} ><h4><i class="fa fa-user-plus" aria-hidden="true"></i> MEDICO</h4></a>
+              <a class="navbar-brand js-scroll-trigger" href="\" style={{marginTop: "10px",marginLeft:"-65px",fontFamily: 'IBM Plex Sans'}} ><h4><i class="fa fa-user-plus" aria-hidden="true"></i> MEDICO</h4></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                   <li class="nav-item" style={{marginRight: "40px"}}>
-                    <a class="nav-link js-scroll-trigger"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>HOME</h6></a>
+                    <a class="nav-link js-scroll-trigger" href="\"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>HOME</h6></a>
                   </li>
           
                   <li class="nav-item" style={{marginRight:"40px"}}>
-                    <a class="nav-link js-scroll-trigger"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>ABOUT US</h6></a>
+                    <a class="nav-link js-scroll-trigger" href="\"  style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>ABOUT US</h6></a>
                   </li>
         
                   <li class="nav-item">
-                    <button  onClick={this.logout} name="Login" class="btn btn-primary"                                                                                                                                               ><h6>LOGOUT</h6></button>
+                  <button  onClick={this.logout} name="Login" class="btn btn-primary"> <a class="nav-link"  ><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></button>
                   </li>
                 </ul>
               </div>

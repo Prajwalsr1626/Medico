@@ -1,23 +1,28 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-
+import Store from "../Action/Store";
+import {ACTION_PATIENT_LOGIN}  from '../Action/PatientAction'
 export default class PatientLogin extends React.Component{
 
     constructor(){
         super()
          this.state = {
             loginto :false,
-            backto:false
+            backto:false,
+            
         }
     }
-    /* login = (event)=>{
+     login = (event)=>{
         var ob = {
-            hospitalid : this.lhospitalid.value,
-            password: this.lpassword.value,
+            email : this.email.value,
+            password: this.password.value,
+            loginstatus:false,
+            regmsg:''
+
         }
         console.log(this.setState.loginstatus)
         
-        fetch(`http://localhost:8080/Hospital/loginHospital`,{
+        fetch(`http://localhost:8080/Hospital/Patientlogin`,{
             method : 'POST',
             headers:{
                 "Content-Type" : "application/json"
@@ -29,8 +34,8 @@ export default class PatientLogin extends React.Component{
             this.setState({regmsg:data.msg})
             if(data.status)
             {
-                 Store.dispatch({...ACTION_HOSPETIAL_LOGIN,payload:{
-                    hospitalid : data.hospitalid,
+                 Store.dispatch({...ACTION_PATIENT_LOGIN,payload:{
+                    patientid: data.data,
                     token:data.token
 
                 }}) 
@@ -38,21 +43,17 @@ export default class PatientLogin extends React.Component{
             }else
             this.setState({loginmsg:data.msg})
             
-        });;
+        }); 
         console.log(this.state.loginstatus)
         console.log(ob)
         
         event.preventDefault()
-    } */
-    Backto=(event)=>{
-        this.setState({backto:true})
-    }
+    } 
+
     render(){
-        if(this.state.loginto){
+        if(this.state.loginstatus){
             return(
-            <h1>Loginto</h1>)
-        }else if(this.state.backto){
-            return(<Navigate to={"/"}/>)
+            <Navigate to={"/patientdashbord"}></Navigate>)
         }
         return(<>
          <body style={{background: "-webkit-linear-gradient(left, #3931af, #00c6ff)", backgroundSize: "cover"}}>
@@ -60,22 +61,22 @@ export default class PatientLogin extends React.Component{
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav" >
     <div class="container">
 
-      <a class="navbar-brand js-scroll-trigger" href="index.php" style={{marginTop:" 10px",marginLeft:"-65px",fontFamily: 'IBM Plex Sans'}}><h4><i class="fa fa-user-plus" aria-hidden="true"></i> GLOBAL HOSPITALS</h4></a>
+      <a class="navbar-brand js-scroll-trigger" href="/" style={{marginTop:" 10px",marginLeft:"-65px",fontFamily: 'IBM Plex Sans'}}><h4><i class="fa fa-user-plus" aria-hidden="true"></i> MEDICO</h4></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item" style={{marginRight: "40px"}}>
-            <a class="nav-link js-scroll-trigger" href="index.php" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>HOME</h6></a>
+            <a class="nav-link js-scroll-trigger" href="\" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>HOME</h6></a>
           </li>
   
           <li class="nav-item" style={{marginRight: "40px"}}>
-            <a class="nav-link js-scroll-trigger" href="services.html" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>ABOUT US</h6></a>
+            <a class="nav-link js-scroll-trigger" href="" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>ABOUT US</h6></a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="contact.html" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>CONTACT</h6></a>
+            <a class="nav-link js-scroll-trigger" href="\" style={{color: "white",fontFamily: 'IBM Plex Sans'}}><h6>CONTACT</h6></a>
           </li>
         </ul>
       </div>
@@ -111,20 +112,21 @@ export default class PatientLogin extends React.Component{
                   <label>Email-ID: </label></div>
                   <div class="col-md-8">
 
-                      <input type="text" name="email" class="form-control" placeholder="enter email ID" required/>
+                      <input type="email" ref={c=>this.email=c} name="email" class="form-control" placeholder="enter email ID" required/>
 
                       </div><br/><br/>
                   <div class="col-md-4" style={{marginTop: "10%"}}><label>Password: </label></div>
-                  <div class="col-md-8" style={{marginTop: "8%"}}><input type="password" class="form-control" name="password2" placeholder="enter password" required/></div><br/><br/><br/>
+                  <div class="col-md-8" style={{marginTop: "8%"}}><input type="password" ref={c=>this.password=c} class="form-control" name="password2" placeholder="enter password" required/></div><br/><br/><br/>
+                  
                 </div>
+                <b style={{color:"red"}}>{this.state.regmsg}</b>
                 <div class="row">
-                 <div class="col-md-4"  style={{paddingLeft: "140px",marginTop: "5%"}}>
-                    
-                <button type="submit"   id="inputbtn" name="Login" class="btn btn-primary"> Login </button>
-    
+                
+                <div class="col-md-4" style={{marginTop: "5%",paddingLeft: "150px"}}>
                 </div>           
-                  <div class="col-md-4" style={{marginTop: "5%",paddingLeft: "150px"}}>
-                  <button type="submit" onClick={this.Backto} name="Login" class="btn btn-primary"> Back </button></div> 
+                  <div class="col-md-4" style={{marginTop: "5%",paddingLeft: "10px"}}>
+                  <button type="submit"  onClick={this.login}   name="Login" class="btn btn-primary">Login</button>
+                  </div> 
                 </div>
               </form>
             </center>

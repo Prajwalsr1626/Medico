@@ -30,8 +30,12 @@ export default class Patient extends React.Component{
             body : JSON.stringify(ob)
         }).then(response=>response.json()).then(data=>{
             console.log(data)
+            if(data.status){
             this.setState({regmsg:data.msg})
             this.setState({plogin:true})
+            }else{
+                this.setState({regmsg:data.msg})
+            }
             
         });;
        console.log(ob);

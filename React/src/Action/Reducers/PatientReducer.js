@@ -1,20 +1,20 @@
 import * as actionType from '../ActionTypes'
 
-export default function HospitalReducer(state={},action)
+export default function PatientReducer(state={},action)
 {
     switch(action.type)
     {
-        case actionType.HOSPETIAL_LOGIN: return {
+        case actionType.PATIENT_LOGIN: return {
                                 ...state, loginstatus:true,
                                 token : action.payload.token,
-                                hospitalid : action.payload.hospitalid
+                               patientid : action.payload.patientid
                                 }
-        case actionType.HOSPETIAL_LOGOUT: return {
+        case actionType.PATIENT_LOGOUT: return {
                                 ...state, loginstatus:false,
                                 token : undefined,
-                                hospitalid: undefined
+                                patientid : undefined
                             }
-        case actionType.HOSPETIAL_UPDATE_TOKEN: return {
+        case actionType.PATIENT_UPDATE_TOKEN: return {
                             ...state,token : action.payload.token
                             }          
         default: return state                                

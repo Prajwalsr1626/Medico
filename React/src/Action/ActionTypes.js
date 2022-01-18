@@ -9,3 +9,7 @@ export const HOSPETIAL_LOGIN = "hospetialLogin"
 export const HOSPETIAL_LOGOUT = "userLogout"
 export const HOSPETIAL_UPDATE_TOKEN = "updateToken"
 
+export const PATIENT_LOGIN = "hospetialLogin"
+export const PATIENT_LOGOUT = "userLogout"
+export const PATIENT_UPDATE_TOKEN = "updateToken"
+

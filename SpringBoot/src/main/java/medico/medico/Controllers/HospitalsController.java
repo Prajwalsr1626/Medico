@@ -2,6 +2,7 @@ package medico.medico.Controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.MimeMessage;
 
@@ -50,24 +51,14 @@ public class HospitalsController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-	 @Autowired
-	private UserDetailsService userDetailsService; 
+	/* @Autowired
+	private UserDetailsService userDetailsService;  */
     
     @Autowired
     HospitalsRepository hospitalsRepository;
     @Autowired
     HospitalsDetailService hospitalsDetailService;
 
-   /*  @PostMapping("/addHospital")
-    public Respones addHospital(@RequestBody Hospitals hospitals)
-    {
-
-        boolean val=hospitalsDetailService.addHospitals(hospitals);
-        if(val==false){
-            return new Respones("200","Hospitals saved Successfully",true);
-        }
-        return new Respones("400","Hospitals saved Successfully",true);
-    } */
     @PostMapping("/register")
     public Respones saveUser(@RequestBody Hospitals hospitals) 
 	{
@@ -118,6 +109,7 @@ public class HospitalsController {
     public Respones addfind()
     {
         List<Hospitals> hosdata=hospitalsRepository.findAll();
+        System.out.println(hosdata);
         return new Respones(200,"200",hosdata,"",true);
     }
     
