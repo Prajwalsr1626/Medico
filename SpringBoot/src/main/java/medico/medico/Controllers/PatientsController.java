@@ -49,12 +49,12 @@ public class PatientsController
             final String token= jwtTokenUtil.generateToken(patients2.getPatid());
             String id=jwtTokenUtil.getUserIdFromToken(token);
             System.out.println(id);
-            return new Respones(200,"Login Successfully",patients2.getPatid(),token,true);
+            return new Respones(200,"Login Successfully",patients2,token,true);
         }else{
-            return new Respones(400,"Enter Proper Email And Password","","",false);
+            return new Respones(400,"Invaild Email And Password","","",false);
         }
       }catch(NullPointerException e){
-        return new Respones(400,"Enter Proper Email And Password","","",false);
+        return new Respones(400,"Invaild Email And Password","","",false);
       }
        
     }
@@ -72,5 +72,12 @@ public class PatientsController
          return new Respones(400,"Session Exprided","Session Exprided","",false);
         }
     }
+    @GetMapping("/getNameByid/{pid}")
+    public Respones getNameByid(@PathVariable String pid)
+    {
 
+        Patients patientdata = patientsRepository.findById(pid).get();
+
+        return new Respones(400,"Session Exprided","Session Exprided","",false);
+    }
 }

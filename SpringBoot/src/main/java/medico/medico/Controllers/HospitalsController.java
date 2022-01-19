@@ -105,13 +105,7 @@ public class HospitalsController {
         return "<h1>"+Hospitalid+"</h1>";
     }
     
-    @GetMapping("/findHospital")
-    public Respones addfind()
-    {
-        List<Hospitals> hosdata=hospitalsRepository.findAll();
-        System.out.println(hosdata);
-        return new Respones(200,"200",hosdata,"",true);
-    }
+   
     
     @PostMapping("/logout")
     public Respones addHospital(@RequestBody String logutstring)
@@ -163,6 +157,13 @@ public class HospitalsController {
             return ResponseEntity.ok(new JWTResponseData(false, "", "Invalid User !",""));
         }
 	}
-    
+
+
+    @GetMapping("/findHospital")
+    public Respones addfind()
+    {
+        List<Hospitals> hosdata=hospitalsRepository.findAll();
+        return new Respones(200,"200",hosdata,"",true);
+    }
 
 }
