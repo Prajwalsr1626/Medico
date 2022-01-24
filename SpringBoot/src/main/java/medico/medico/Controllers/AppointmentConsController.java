@@ -30,7 +30,7 @@ public class AppointmentConsController {
       List<AppointmentCons> checkAppointment=appointmentConsRepository.findAll().stream().filter(data->data.getDate().equals(appointmentcon.getDate())).collect(Collectors.toList());
       for(AppointmentCons ap:checkAppointment){
           if(ap.getPatid().equals(appointmentcon.getPatid())){
-            return new Respones(400,"Appointement Alreay for this Day ","","",true);
+            return new Respones(400,"Appointement Alreay for this Day ","","",false);
           }
       }
       AppointmentCons appointmentdata=appointmentConsRepository.save(appointmentcon);
@@ -42,12 +42,38 @@ public class AppointmentConsController {
     @GetMapping("/getAppointbypid/{pid}")
     public Respones getAppointbyPid(@PathVariable String pid)
     {
-    
-      List<AppointmentCons> checkAppointment=appointmentConsRepository.findAll().stream().filter(data->data.getPatid().equals(pid)).collect(Collectors.toList());
+      
+      List<AppointmentCons> checkAppointment=appointmentConsRepository.findAll().stream().filter(data->data.getPatid().equals(pid))
+      .collect(Collectors.toList());
       
       return new Respones(200,"Registerd Successfully",checkAppointment,"",true);
 
     }
+    @GetMapping("/getAppointbyhosid/{hosid}")
+    public Respones getAppointbyhosid(@PathVariable String hosid)
+    {
+      
+      List<AppointmentCons> checkAppointment=appointmentConsRepository.findAll().stream()
+      .filter(data->data.getHospitalid().equals(hosid))
+      .filter(data->data.getStatusMessage().equals("Pending")).
+      filter(data->data.isStatus()==false).collect(Collectors.toList());
+      
+      return new Respones(200,"data Successfully",checkAppointment,"",true);
+
+    }
+
+    @GetMapping("/AccpetConApp/{apid}")
+    public Respones AppointAccpet(@PathVariable String apid)
+    {
+
+      AppointmentCons appdata=appointmentConsRepository.findById(apid).get();
+      appdata.setStatus(true);
+      appdata.setStatusMessage("Accepted");
+      appointmentConsRepository.save(appdata);
+      AppointmentCons appdat2=appointmentConsRepository.findById(apid).get();
+       return new Respones(200,"data Successfully",appdat2,"",true);
+    }
+
     
     @GetMapping("/check/{datev}")
     public Respones Check(@PathVariable String datev)
@@ -60,6 +86,18 @@ public class AppointmentConsController {
      
       return new Respones(200,"Registerd Successfully",checkAppointment,"",true);
 
+    }
+
+    @GetMapping("/RejectConApp/{apid}")
+    public Respones Rejectapp(@PathVariable String apid)
+    {
+
+      AppointmentCons appdata=appointmentConsRepository.findById(apid).get();
+      appdata.setStatus(false);
+      appdata.setStatusMessage("Rejected");
+      appointmentConsRepository.save(appdata);
+      AppointmentCons appdat2=appointmentConsRepository.findById(apid).get();
+       return new Respones(200,"data Successfully",appdat2,"",true);
     }
     
 }

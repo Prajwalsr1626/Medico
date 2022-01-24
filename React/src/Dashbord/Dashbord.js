@@ -4,6 +4,8 @@ import {ACTION_HOSPETIAL_LOGOUT , ACTION_HOSPETIAL_UPDATE_TOKEN} from "../Action
 import { Navigate } from 'react-router-dom';
 import {connect} from 'react-redux'
 import AddlistDoctor from "../Doctor/AddlistDoctor";
+import ConsultancyReq from "../Consultancy/ConsultancyReq";
+import Testreq from "../Consultancy/Testreq";
 
 var mapStateToProps = state => {
   return {
@@ -95,7 +97,9 @@ var mapStateToProps = state => {
       <a class="list-group-item list-group-item-action active" id="list-dash-list" data-toggle="list" href="#list-dash" role="tab" aria-controls="home">Dashboard</a>
       <a class="list-group-item list-group-item-action" href="#list-doc" id="list-doc-list"  role="tab"    aria-controls="home" data-toggle="list">Doctor List</a>
       <a class="list-group-item list-group-item-action" href="#list-settings" id="list-adoc-list"  role="tab" data-toggle="list" aria-controls="home">Add Doctor</a>
-      <a class="list-group-item list-group-item-action" href="#list-pat" id="list-pat-list"  role="tab" data-toggle="list" aria-controls="home">Patient List</a>
+      <a class="list-group-item list-group-item-action" href="#Consultancy" id="Consultancy-list"  role="tab" data-toggle="list" aria-controls="home"> Consultancy Request</a>
+      <a class="list-group-item list-group-item-action" href="#testreq" id="testreq-list"  role="tab" data-toggle="list" aria-controls="home"> Test Request</a>
+
       <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home">Appointment Details</a>
       <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list"  role="tab" data-toggle="list" aria-controls="home">Prescription List</a>
       <a class="list-group-item list-group-item-action" href="#list-mes" id="list-mes-list"  role="tab" data-toggle="list" aria-controls="home">Queries</a>
@@ -130,7 +134,7 @@ var mapStateToProps = state => {
                       <h4 class="StepTitle" style={{marginTop: "5%"}}>Patient List</h4>
                       
                       <p class="cl-effect-1">
-                        <a href="#app-hist" onclick="clickDiv('#list-pat-list')">
+                        <a href="#app-hist" onclick="clickDiv('#Consultancy-list')">
                           View Patients
                         </a>
                       </p>
@@ -193,46 +197,8 @@ var mapStateToProps = state => {
             </div>
 
       <AddlistDoctor Hosdata={this.props.Hopital.hospitalid}></AddlistDoctor>
-     
-
-    <div class="tab-pane fade" id="list-pat" role="tabpanel" aria-labelledby="list-pat-list">
-
-       <div class="col-md-8">
-      <form class="form-group" action="patientsearch.php" method="post">
-        <div class="row">
-        <div class="col-md-10"><input type="text" name="patient_contact" placeholder="Enter Contact" class = "form-control"/></div>
-        <div class="col-md-2"><input type="submit" name="patient_search_submit" class="btn btn-primary" value="Search"/></div></div>
-      </form>
-    </div>
-        
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                  <th scope="col">Patient ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Gender</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Contact</th>
-                    <th scope="col">Password</th>
-                  </tr>
-                </thead>
-                <tbody>
-                      <tr>
-                        <td>$pid</td>
-                        <td>$fname</td>
-                        <td>$lname</td>
-                        <td>$gender</td>
-                        <td>$email</td>
-                        <td>$contact</td>
-                        <td>$password</td>
-                      </tr>
-                
-                </tbody>
-              </table>
-        <br/>
-      </div>
-
+     <ConsultancyReq Hosdata={this.props.Hopital.hospitalid}></ConsultancyReq>
+     <Testreq Hosdata={this.props.Hopital.hospitalid}></Testreq>
 
       <div class="tab-pane fade" id="list-pres" role="tabpanel" aria-labelledby="list-pres-list">
 

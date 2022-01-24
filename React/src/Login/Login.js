@@ -2,7 +2,6 @@ import React from "react";
 import { Navigate } from 'react-router-dom';
 import {ACTION_HOSPETIAL_LOGIN} from '../Action/HospitalAction'
 import Store from '../Action/Store'
-import Hospitalid from "../Gobaldata/hospitalid";
 export default class Login extends React.Component{
 
     constructor(){

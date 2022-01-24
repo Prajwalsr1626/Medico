@@ -9,6 +9,7 @@ export default class Appointmentcon extends React.Component{
             loginmsg : '',
             loginstatus : false,
             hospetial:[],
+            Appointmentcon:[]
         }
     }
 
@@ -23,7 +24,21 @@ export default class Appointmentcon extends React.Component{
         }); 
         console.log(this.props.patientidata.name)
         console.log(this.props.patientidata.patid)
+
+        fetch(`http://localhost:8080/Hospital/getAppointbypid/${this.props.patientidata.patid}`)
+        
+     .then(response=>response.json()).then(data=>{
+       console.log(data)
+       if(data.status)
+       this.setState({Appointmentcon:data.data})
+
+        }); 
+        console.log(this.props.patientidata.name)
+        console.log(this.props.patientidata.patid)
     }
+
+
+
     takeAppointment=(event)=>{
         var ob={
             "hospitalid":this.hospetialid.value,
@@ -45,6 +60,7 @@ export default class Appointmentcon extends React.Component{
             if(data.status)
             {
                 this.setState({regmsg:data.msg})
+                this.setState({Appointmentcon:[...this.state.Appointmentcon,ob]})
             }
             else{
               this.setState({regmsg:data.msg})
@@ -52,6 +68,17 @@ export default class Appointmentcon extends React.Component{
         });
         console.log(ob)
        event.preventDefault()
+    }
+    refresh(){
+      fetch(`http://localhost:8080/Hospital/getAppointbypid/${this.props.patientidata.patid}`)
+        
+     .then(response=>response.json()).then(data=>{
+       console.log(data)
+       if(data.status)
+       this.setState({Appointmentcon:data.data})
+
+        }); 
+
     }
 
 
@@ -81,7 +108,7 @@ export default class Appointmentcon extends React.Component{
                         </div>
                         <br/><br/>
 
-              <div class="col-md-4"><label for="Specialization">Specialization:</label></div>
+              <div class="col-md-4"><label for="Specialization">Specialization</label></div>
                 <div class="col-md-8">
                 <select name="special" ref={c=>this.Specialization=c} class="form-control" id="special" required="required">
                           <option value="head" name="spec" disabled selected>Select Specialization</option>
@@ -119,32 +146,30 @@ export default class Appointmentcon extends React.Component{
         </div><br/>
       </div>
       <div class="tab-pane fade" id="appointmentStutes" role="tabpanel" aria-labelledby="list-pres-list">
-        
-              <table class="table table-hover">
+      <button type="button" onClick={()=>this.refresh()} class="btn btn-default btn-sm" style={{marginLeft:"800px"}}>
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+              <table class="table table-hover"> 
                 <thead>
                   <tr>
-                    
-                    <th scope="col">Doctor Name</th>
-                    <th scope="col">Appointment ID</th>
+                    <th scope="col">Sl NO</th>
                     <th scope="col">Appointment Date</th>
                     <th scope="col">Appointment Time</th>
-                    <th scope="col">Diseases</th>
-                    <th scope="col">Allergies</th>
-                    <th scope="col">Prescriptions</th>
-                    <th scope="col">Bill Payment</th>
-                  </tr>
+                    <th scope="col">Specialization</th> 
+                    <th scope="col">Status </th>          
+                   </tr>
                 </thead>
-                
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                <tbody>
+                {this.state.Appointmentcon.map((ob,index)=>{
+                    return <tr key={index}>
+                      <td>{index+1}</td>
+                      <td>{ob.date}</td>
+                      <td>{ob.time}</td>
+                      <td>{ob.specialization}</td>
+                      {ob.status==true?<td style={{color:"green"}}> {ob.statusMessage} </td> :ob.statusMessage=="Pending"?<td style={{color:"yellow"}}>{ob.statusMessage}</td>:<td style={{color:"red"}}>{ob.statusMessage}</td>}
                        </tr>
-                          
+                  })}
+                  </tbody>
               </table>
         <br/>
       </div>

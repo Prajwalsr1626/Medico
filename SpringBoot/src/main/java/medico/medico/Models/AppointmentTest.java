@@ -19,6 +19,7 @@ public class AppointmentTest {
     String appointId;
     String hospitalid;
     String patid;
+    String pname;
     String testnames;
     String date;
     String time;
