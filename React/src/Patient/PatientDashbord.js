@@ -6,6 +6,7 @@ import {ACTION_PATIENT_LOGOUT , ACTION_PATIENT_UPDATE_TOKEN} from "../Action/Pat
 import {connect} from 'react-redux'
 import Appointmentcon from "./Appointmentcon";
 import AppointmentTest from "./AppointmentTest";
+import HistoryAppoint from "./HistoryAppoint";
 var mapStateToProps = state => {
     return {
         Patientd: state.Patient,
@@ -37,14 +38,16 @@ class PatientDashbord extends React.Component{
                 console.log(this.state.Patient)
                 console.log(this.state.Patient.name)
                 
-            }else{
-                if(data.code==401)
+            }else
+                if(data.code==401){
+                
                     alert("Invalid User !")
-                if(data.code==400)
+                } else
+                if(data.code==400){
                     alert("Session Lost !")
                     this.setState({logoinstatus:true})  
-                Store.dispatch({...ACTION_PATIENT_LOGOUT})                      
-            }
+                    Store.dispatch({...ACTION_PATIENT_LOGOUT})  
+                }                    
         }); 
     }
 
@@ -152,6 +155,8 @@ class PatientDashbord extends React.Component{
     <Appointmentcon patientidata={this.props.Patientd.patientid}></Appointmentcon>
 
     <AppointmentTest patientidata={this.props.Patientd.patientid}></AppointmentTest>
+
+    <HistoryAppoint patientidata={this.props.Patientd.patientid}></HistoryAppoint>
 
 
 

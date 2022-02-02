@@ -111,5 +111,14 @@ public class AppointmentTestContoller {
       return new Respones(200,"data Successfully",today,"",true);
 
     }
+    @GetMapping("/Accpetconrequesttest/{hosid}")
+    public Respones Accpetconrequest(@PathVariable String hosid)
+    {
+
+      List<AppointmentTest> appointment=appointmentTestRepository.findAll().stream()
+      .filter(data->data.getHospitalid().equals(hosid)).
+      filter(data->data.isStatus()==true).collect(Collectors.toList());
+       return new Respones(200,"data Successfully",appointment,"",true);
+    }
 
 }

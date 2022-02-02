@@ -6,7 +6,9 @@ import {connect} from 'react-redux'
 import AddlistDoctor from "../Doctor/AddlistDoctor";
 import ConsultancyReq from "../Consultancy/ConsultancyReq";
 import Testreq from "../Consultancy/Testreq";
-
+import ConsulyanyAppoint from "../Appointment/ConsulyanyAppoint"
+import TestAppoint from "../Appointment/TestAppoint";
+import HistoryAppointment from "../Appointment/HistoryAppointment";
 var mapStateToProps = state => {
   return {
      Hopital: state.Hospitals,
@@ -100,8 +102,10 @@ var mapStateToProps = state => {
       <a class="list-group-item list-group-item-action" href="#Consultancy" id="Consultancy-list"  role="tab" data-toggle="list" aria-controls="home"> Consultancy Request</a>
       <a class="list-group-item list-group-item-action" href="#testreq" id="testreq-list"  role="tab" data-toggle="list" aria-controls="home"> Test Request</a>
 
-      <a class="list-group-item list-group-item-action" href="#list-app" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home">Appointment Details</a>
-      <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list"  role="tab" data-toggle="list" aria-controls="home">Prescription List</a>
+      <a class="list-group-item list-group-item-action" href="#Appointcon" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home"> Consultancy Appointment </a>
+      <a class="list-group-item list-group-item-action" href="#testAppoint" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home"> Test Appointment </a>
+      <a class="list-group-item list-group-item-action" href="#hisAppoint" id="list-app-list"  role="tab" data-toggle="list" aria-controls="home"> Appointment History </a>
+      <a class="list-group-item list-group-item-action" href="#list-pres" id="list-pres-list"  role="tab" data-toggle="list" aria-controls="home">Appointment  </a>
       <a class="list-group-item list-group-item-action" href="#list-mes" id="list-mes-list"  role="tab" data-toggle="list" aria-controls="home">Queries</a>
       
     </div><br/>
@@ -199,7 +203,9 @@ var mapStateToProps = state => {
       <AddlistDoctor Hosdata={this.props.Hopital.hospitalid}></AddlistDoctor>
      <ConsultancyReq Hosdata={this.props.Hopital.hospitalid}></ConsultancyReq>
      <Testreq Hosdata={this.props.Hopital.hospitalid}></Testreq>
-
+     <ConsulyanyAppoint Hosdata={this.props.Hopital.hospitalid}></ConsulyanyAppoint>
+     <TestAppoint Hosdata={this.props.Hopital.hospitalid} ></TestAppoint>
+     <HistoryAppointment Hosdata={this.props.Hopital.hospitalid}></HistoryAppointment>
       <div class="tab-pane fade" id="list-pres" role="tabpanel" aria-labelledby="list-pres-list">
 
        <div class="col-md-8">

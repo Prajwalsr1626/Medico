@@ -80,4 +80,12 @@ public class PatientsController
 
         return new Respones(400,"Session Exprided","Session Exprided","",false);
     }
+    @GetMapping("/findPatients")
+    public Respones findPatients()
+    {
+
+        List<Patients> patientdata = patientsRepository.findAll();
+
+        return new Respones(200,"",patientdata,"",true);
+    }
 }

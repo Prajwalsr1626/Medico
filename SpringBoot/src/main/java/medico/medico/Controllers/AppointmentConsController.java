@@ -99,5 +99,16 @@ public class AppointmentConsController {
       AppointmentCons appdat2=appointmentConsRepository.findById(apid).get();
        return new Respones(200,"data Successfully",appdat2,"",true);
     }
+
+    @GetMapping("/Accpetconrequest/{hosid}")
+    public Respones Accpetconrequest(@PathVariable String hosid)
+    {
+
+      List<AppointmentCons> appointment=appointmentConsRepository.findAll().stream()
+      .filter(data->data.getHospitalid().equals(hosid)).
+      filter(data->data.isStatus()==true).collect(Collectors.toList());
+       return new Respones(200,"data Successfully",appointment,"",true);
+    }
     
 }
+  

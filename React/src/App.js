@@ -8,6 +8,7 @@ import {
 import Dashbord from "./Dashbord/Dashbord";
 import PatientLogin from "./Patient/PatientLogin";
 import PatientDashbord from './Patient/PatientDashbord'
+
  export default class App extends React.Component{
   constructor(){
     super();
@@ -24,6 +25,7 @@ import PatientDashbord from './Patient/PatientDashbord'
              <Route path="/Dashbord" element={<Dashbord/>}/>
              <Route path="/patientlogin" element={<PatientLogin/>}/>
              <Route path="/patientdashbord" element={<PatientDashbord/>}/>
+         
              </Routes>
     )
   }
