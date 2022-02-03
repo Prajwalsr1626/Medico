@@ -1,0 +1,27 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>hospital Name</th>
+                <th>Email</th>
+                <th>contact</th>
+                <th>address</th>
+                <th>hospital Details</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let hos of hospitals; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{hos.hospitalname}}</td>
+                <td>{{hos.email}}</td>
+                <td>{{hos.contact}}</td>
+                <td>{{hos.address}}</td>
+                <td><button type="button" class="btn btn-success" (click)="hosDetails(hos.hospitalid)"  routerLink="/hospitalDetails">Details</button></td>
+                
+            </tr>
+        <tbody>
+    </table>
+</div>
+<router-outlet></router-outlet>

@@ -1,0 +1,28 @@
+<div class="table-wrapper">
+    <table class="fl-table">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Patients Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Phone No.</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pat of patients; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{pat.name}}</td>
+                <td>{{pat.age}}</td>
+                <td>{{pat.gender}}</td>
+                <td>{{pat.email}}</td>
+                <td>{{pat.phoneno}}</td>
+                
+                
+            </tr>
+        <tbody>
+    </table>
+</div>
+
