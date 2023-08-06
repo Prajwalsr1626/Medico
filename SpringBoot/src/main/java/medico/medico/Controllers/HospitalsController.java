@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.mail.internet.MimeMessage;
+//import javax.mail.internet.MimeMessage;
 
 import medico.medico.Models.Hospitals;
 import medico.medico.Repository.HospitalsRepository;
@@ -16,9 +16,9 @@ import medico.medico.service.HospitalsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+/* import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessageHelper; */
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -38,8 +38,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/Hospital")
 public class HospitalsController {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+   /*  @Autowired
+    private JavaMailSender javaMailSender; */
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -66,7 +66,7 @@ public class HospitalsController {
         boolean hoscheck=hospitalsRepository.existsById(hospitals.getHospitalid());
 
 		if (hoscheck==false){
-        SendVerifyMail(hospitals.getHospitalname(),hospitals.getEmail(),hospitals.getHospitalid());
+     //   SendVerifyMail(hospitals.getHospitalname(),hospitals.getEmail(),hospitals.getHospitalid());
         hospitals.setPassword(passwordEncoder.encode(hospitals.getPassword()));
         hospitalsRepository.save(hospitals);
         return new Respones(200,"Vrification Link sent to Your Email","Hospitals saved Successfully","",true);
@@ -75,7 +75,7 @@ public class HospitalsController {
 			return new Respones(401,"Hospitals with This Id Already Exists","Hospitals with This Id Already Exists","",false);
 	}
 
-
+/* 
     private boolean SendVerifyMail(String name,String email,String hospitalid) 
 	{
 		try {
@@ -93,7 +93,7 @@ public class HospitalsController {
 			return false;
 		}
 	}
-
+ */
     @GetMapping("/vrifcation/{Hospitalid}")
     public String vrification(@PathVariable String Hospitalid)
     {
